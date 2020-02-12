@@ -8,9 +8,17 @@
 </head>
 <body>
     <div id="content">
-        <button id="btn-back" onclick="prevPage()"><i class="fas fa-arrow-left"></i></button>
-        <div id="statement_wrapper"></div>
-        <div id="statement_actions"></div>
+        <div id="toggleQuestionsContainer">
+            <button href="javascript:;" type="button" class="btn-answer" onclick="toggleQuestions()">Start!</button>
+        </div>
+        <div id="toggleQuestions">
+            <button id="btn-back" onclick="prevPage()"><i class="fas fa-arrow-left"></i></button>
+            <div id="statement_wrapper"></div>
+            <div id="statement_actions"></div>
+        </div>
+        <div id="toggleEndContainer">
+            <h1>This isnt finished yet!</h1>
+        </div>
     </div>
     <script src="https://kit.fontawesome.com/6185da5d11.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/data.js"></script>

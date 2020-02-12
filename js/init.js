@@ -20,7 +20,12 @@ function init_buttons() {
 
     // Creating an onclick to send a request te re render the page with a new count
     buttonEens.onclick = function () {
-        if (count == 29) { return; }
+        if (count == 29) {
+            if (confirm("Are you sure you want to submit your answers?")) {
+                toggleEndScreen();
+            }
+            return;
+        }
         if (count == undefined) {
             count = 1;
         } else {
@@ -66,7 +71,13 @@ function nextPage(count) {
 }
 
 function prevPage() {
-    if (count == 0) { return; }
+    if (count == 0) {
+        //var confirm = confirm("Are you sure you want to go back to start?");
+        if (confirm('Are you sure you want to go back to start?')) {
+            toggleStart();
+        }
+        return;
+    }
     if (count == undefined) {
         count = 1;
     } else {
@@ -79,4 +90,19 @@ function clear() {
     var wrapperContainer = document.getElementById("statement_wrapper");
 
     wrapperContainer.innerHTML = "";
+}
+
+function toggleQuestions() {
+    document.getElementById("toggleQuestions").style.display = "block";
+    document.getElementById("toggleQuestionsContainer").style.display = "none";
+} 
+
+function toggleStart() {
+    document.getElementById("toggleQuestions").style.display = "none";
+    document.getElementById("toggleQuestionsContainer").style.display = "block";
+}
+
+function toggleEndScreen() {
+    document.getElementById("toggleQuestions").style.display = "none";
+    document.getElementById("toggleEndContainer").style.display = "block";
 }

@@ -21,6 +21,10 @@ body {
     transform: translateY(-50%);
 }
 
+#toggleQuestions, #toggleEndContainer {
+    display: none;
+}
+
 #statement_wrapper {
     max-width: 815px;
     padding: 0em 1em 0 1em;
@@ -77,4 +81,12 @@ body {
 #btn-back:hover {
    transform:translateX(-2px);
    transition: ease-in-out 0.2s; 
+}
+
+#toggleQuestionsContainer {
+    position: relative;
+    text-align: center;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
