@@ -1,5 +1,5 @@
 body {
-  background-image: url("images/background-1024.jpg");
+  background-image: url("../images/background-1024.jpg");
 
   height: 100vh;
 
@@ -8,7 +8,7 @@ body {
   background-size: cover;
 }
 
-.content {
+#content {
     display: block;
     background: white;
     width: 100%;
@@ -21,26 +21,26 @@ body {
     transform: translateY(-50%);
 }
 
-.statement_wrapper {
-    max-width: 815px;
-    padding: 7em 1em 0 1em;
-    margin: 0 10%;
-}
-
-.statement_actions {
+#statement_wrapper {
     max-width: 815px;
     padding: 0em 1em 0 1em;
     margin: 0 10%;
 }
 
-.statement_title {
+#statement_actions {
+    max-width: 815px;
+    padding: 0em 1em 0 1em;
+    margin: 0 10%;
+}
+
+#statement_title {
     font-size: 33px;
     color: #01B4DC;
     font-family: 'Arial';
     font-weight: bold;
 }
 
-.statement_description {
+#statement_description {
     font-family: 'Arial';
     margin-bottom: 1em;
     font-size: 33px;
@@ -60,4 +60,21 @@ body {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#btn-back {
+    background-color: #E7EAEB;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    font-size: 30px;
+    margin: 1em;
+}
+#btn-back:active {
+    background-color: grey;
+}
+#btn-back:hover {
+   transform:translateX(-2px);
+   transition: ease-in-out 0.2s; 
 }
