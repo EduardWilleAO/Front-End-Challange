@@ -1,42 +1,52 @@
 questionCounter = 0;
 count = 0;
 
-// Initialize function to create the buttons
-// Only run once, otherwise add to render function and clear statement_actions in clear();
+answerArray = [];
+
+// init function and the render that creates the page content
 function init_buttons() {
     var buttonContainer = document.getElementById("statement_actions");
 
     var buttonEens = document.createElement("button");
     var buttonGeenVanBeiden = document.createElement("button");
     var buttonOneens = document.createElement("button");
+    var buttonSkip = document.createElement("button");
 
     buttonEens.setAttribute("class", "btn-answer");
     buttonGeenVanBeiden.setAttribute("class", "btn-answer");
     buttonOneens.setAttribute("class", "btn-answer");
+    buttonSkip.setAttribute("class", "btn-answer");
 
     buttonEens.innerHTML = "Eens";
     buttonGeenVanBeiden.innerHTML = "Geen Van Beiden";
     buttonOneens.innerHTML = "Oneens";
+    buttonSkip.innerHTML = "Sla deze vraag over";
 
     // Creating an onclick to send a request te re render the page with a new count
-    buttonEens.onclick = function () {
-        if (count == 29) {
-            if (confirm("Are you sure you want to submit your answers?")) {
-                toggleEndScreen();
-            }
-            return;
-        }
-        if (count == undefined) {
-            count = 1;
-        } else {
-            count++;
-        }
-        nextPage(count);
-    }
+    buttonEens.onclick = function () { answerArray.splice(count, 0, { "answer": "Eens" }); prepareRender(); }
+    buttonGeenVanBeiden.onclick = function () { answerArray.splice(count, 0, { "answer": "Geen Van Beiden" }); prepareRender(); }
+    buttonOneens.onclick = function () { answerArray.splice(count, 0, { "answer": "Oneens" }); prepareRender(); }
+    buttonSkip.onclick = function () { answerArray.splice(count, 0, { "answer": "" }); prepareRender(); }
 
     buttonContainer.appendChild(buttonEens);
     buttonContainer.appendChild(buttonGeenVanBeiden);
     buttonContainer.appendChild(buttonOneens);
+    buttonContainer.appendChild(buttonSkip);
+}
+
+function prepareRender() {
+    if (count == 29) {
+        if (confirm("Are you sure you want to submit your answers?")) {
+            toggleEndScreen();
+        }
+        return;
+    }
+    if (count == undefined) {
+        count = 1;
+    } else {
+        count++;
+    }
+    render(count);
 }
 
 function render(count) {
@@ -66,11 +76,10 @@ function render(count) {
     wrapperContainer.appendChild(description);
 }
 
-function nextPage(count) {
-    render(count);
-}
-
+// Functions for editing page content
 function prevPage() {
+    answerArray.splice((count-1), 1);
+
     if (count == 0) {
         //var confirm = confirm("Are you sure you want to go back to start?");
         if (confirm('Are you sure you want to go back to start?')) {
@@ -92,6 +101,7 @@ function clear() {
     wrapperContainer.innerHTML = "";
 }
 
+// Functions for toggeling the display of the 3 scenes
 function toggleQuestions() {
     document.getElementById("toggleQuestions").style.display = "block";
     document.getElementById("toggleQuestionsContainer").style.display = "none";
