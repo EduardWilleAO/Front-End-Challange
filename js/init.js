@@ -1,7 +1,31 @@
-questionCounter = 0;
-count = 0;
+var questionCounter = 0;
+var count = 0;
 
-answerArray = [];
+var answerArray = [];
+//var positionArray = [
+//{ "name": "PVV", "position": "" },
+//{ "name": "SP", "position": "" },
+//{ "name": "D66", "position": "" },
+//{ "name": "GroenLinks", "position": "" },
+//{ "name": "Partij voor de Dieren", "position": "" },
+//{ "name": "50Plus", "position": "" },
+//{ "name": "VNL", "position": "" },
+//{ "name": "Nieuwe Wegen", "position": "" },
+//{ "name": "Forum voor Democratie", "position": "" },
+//{ "name": "De Burger Beweging", "position": "" },
+//{ "name": "Vrijzinnige Partij", "position": "" },
+//{ "name": "Piratenpartij", "position": "" },
+//{ "name": "Libertarische Partij", "position": "" },
+//{ "name": "Lokaal in de Kamer", "position": "" },
+//{ "name": "Niet Stemmers", "position": "" },
+//{ "name": "VVD", "position": "" },
+//{ "name": "PvdA",  "position": "" },
+//{ "name": "CDA", "position": "" },
+//{ "name": "ChristenUnie", "position": "" },
+//{ "name": "SGP", "position": "" },
+//{ "name": "OndernemersPartij", "position": "" },
+//{ "name": "DENK", "position": "" },
+//{ "name": "Artikel 1", "position": "" }];
 
 // init function and the render that creates the page content
 function init_buttons() {
@@ -15,15 +39,19 @@ function init_buttons() {
     buttonEens.setAttribute("class", "btn-answer");
     buttonGeenVanBeiden.setAttribute("class", "btn-answer");
     buttonOneens.setAttribute("class", "btn-answer");
-    buttonSkip.setAttribute("class", "btn-answer");
+    buttonSkip.setAttribute("id", "btn-skip");
 
     buttonEens.innerHTML = "Eens";
     buttonGeenVanBeiden.innerHTML = "Geen Van Beiden";
     buttonOneens.innerHTML = "Oneens";
-    buttonSkip.innerHTML = "Sla deze vraag over";
+    buttonSkip.innerHTML = "Sla deze vraag over <i class='fas fa-arrow-right'></i>";
 
     // Creating an onclick to send a request te re render the page with a new count
-    buttonEens.onclick = function () { answerArray.splice(count, 0, { "answer": "Eens" }); prepareRender(); }
+    buttonEens.onclick = function () {
+        answerArray.splice(count, 0, { "answer": "Eens" });
+        //positionArray[count].position = "Eens";
+        prepareRender();
+    }
     buttonGeenVanBeiden.onclick = function () { answerArray.splice(count, 0, { "answer": "Geen Van Beiden" }); prepareRender(); }
     buttonOneens.onclick = function () { answerArray.splice(count, 0, { "answer": "Oneens" }); prepareRender(); }
     buttonSkip.onclick = function () { answerArray.splice(count, 0, { "answer": "" }); prepareRender(); }
@@ -100,6 +128,33 @@ function clear() {
 
     wrapperContainer.innerHTML = "";
 }
+
+function logPro() {
+    //var pro = 0;
+    //for (i = 0; i <= subjects[0].parties.length-1; i++) {
+    //    var answer = subjects[i].parties[i].position;
+    //    if (answerArray[i] == "Eens") {
+    //        pro++;
+    //        console.log(pro);
+    //        answerArray[i];
+    //    }
+    //}
+
+    // Display all the items that agree with the button
+    for (i = 0; i < subjects[0].parties.length - 1; i++) {
+        if (subjects[0].parties[i].position == "pro") {
+            subjects[0].parties[i].score = +1;
+        }
+    }
+
+    
+
+    var name = document.getElementById("content");
+    var string = subjects[0].parties[0].name.toString();
+    name.appendChild("hello");
+}
+
+logPro();
 
 // Functions for toggeling the display of the 3 scenes
 function toggleQuestions() {

@@ -1,3 +1,6 @@
+*:focus {
+    outline: none;
+}
 body {
   background-image: url("../images/background-1024.jpg");
 
@@ -26,7 +29,6 @@ body {
     margin: 0 10%;
 }
 #statement_actions {
-    max-width: 815px;
     padding: 0em 1em 0 1em;
     margin: 0 10%;
 }
@@ -57,6 +59,9 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+.btn-answer:hover {
+    color: lightgrey;
+}
 
 #btn-back {
     background-color: #E7EAEB;
@@ -73,6 +78,18 @@ body {
 #btn-back:hover {
    transform:translateX(-2px);
    transition: ease-in-out 0.2s; 
+}
+
+#btn-skip {
+    display: inline-block;
+    background: white;
+    font-size: 20px;
+    color: #A8A8A8;
+    border: none;
+    border-style: none;
+}
+#btn-skip:hover {
+    color: grey;
 }
 
 #toggleQuestions, #toggleEndContainer {
