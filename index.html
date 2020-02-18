@@ -9,12 +9,17 @@
 <body>
     <div id="content">
         <div id="toggleQuestionsContainer">
-            <button type="button" class="btn-answer" onclick="toggleQuestions()">Start!</button>
+            <button type="button" id="btnStart" class="btn-answer" onclick="toggleQuestions()">Start!</button>
         </div>
         <div id="toggleQuestions">
             <button id="btn-back" onclick="prevPage()"><i class="fas fa-arrow-left"></i></button>
             <div id="statement_wrapper"></div>
-            <div id="statement_actions"></div>
+            <div id="statement_actions">
+                <button id="btn-pro" class="btn-answer">Eens</button>
+                <button id="btn-none" class="btn-answer">Geen Van Beiden</button>
+                <button id="btn-contra" class="btn-answer">Oneens</button>
+                <button id="btn-skip" class="btn-answer">Sla deze vraag over <i class='fas fa-arrow-right'></i></button>
+            </div>
         </div>
         <div id="toggleEndContainer">
             <h1>This isnt finished yet!</h1>
