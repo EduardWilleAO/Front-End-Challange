@@ -38,17 +38,14 @@ function init_buttons() {
     // Creating an onclick to send a request te re render the page with a new count
     btnPro.onclick = function () {
         answerArray.splice(count, 0, { "answer": "Eens" });
-        saveAnswerData(count, "pro");
         prepareRender();
     }
     btnNone.onclick = function () {
         answerArray.splice(count, 0, { "answer": "Geen Van Beiden" });
-        saveAnswerData(count, "none");
         prepareRender();
     }
     btnContra.onclick = function () {
         answerArray.splice(count, 0, { "answer": "Oneens" });
-        saveAnswerData(count, "contra");
         prepareRender();
     }
     btnSkip.onclick = function () {
@@ -124,7 +121,7 @@ function clear() {
     wrapperContainer.innerHTML = "";
 }
 
-function saveAnswerData(questionNumber, opinion) {
+function calculateResult(questionNumber, opinion) {
     for (i = 0; i < subjects[questionNumber].parties.length; i++) {
         if (subjects[questionNumber].parties[i].position == opinion) {
             if (!positionArray[i].score) {
@@ -135,6 +132,23 @@ function saveAnswerData(questionNumber, opinion) {
         }
     }
     console.log(positionArray);
+}
+
+function dataDump() {
+    var container = document.getElementById("endSecondary");
+
+    for (i = 0; i < positionArray.length; i++) {
+        var container = document.getElementById("result_content");
+        var p = document.createElement("p");
+
+        if (!positionArray[i].score) {
+            p.innerHTML = positionArray[i].name + " " + "0";
+        } else {
+            p.innerHTML = positionArray[i].name + " " + positionArray[i].score;
+        }
+
+        container.appendChild(p);
+    }
 }
 
 // Functions for toggeling the display of the 3 scenes
@@ -151,4 +165,6 @@ function toggleStart() {
 function toggleEndScreen() {
     document.getElementById("toggleQuestions").style.display = "none";
     document.getElementById("toggleEndContainer").style.display = "block";
+
+    dataDump();
 }
