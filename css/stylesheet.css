@@ -95,17 +95,10 @@ body {
     display: none;
 }
 #toggleQuestionsContainer {
-    position: relative;
+    position: absolute;
     text-align: center;
     top: 50%;
+    width: 100%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
-}
-
-#endMain {
-    background-color: #E7EAEB;
-}
-
-#endSecondary {
-
 }

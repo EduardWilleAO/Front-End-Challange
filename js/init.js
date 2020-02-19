@@ -2,31 +2,6 @@ var questionCounter = 0;
 var count = 0;
 
 var answerArray = [];
-//var positionArray = ["PVV", "SP", "D66", "GroenLinks", "Partij voor de Dieren", "50Plus", "VNL", "Nieuwe Wegen", "Forum voor Democratie", "De Burger Bewegin", "Vrijzinnige Partij", "Piratenpartij", "Libertarische Partij", "Lokaal in de Kamer", "Niet Stemmers", "VVD", "PvdA", "CDA", "ChristenUnie", "SGP", "OndernemersPartij", "DENK", "Artikel 1"];
-var positionArray = [
-{ "name": "PVV" },
-{ "name": "SP" },
-{ "name": "D66" },
-{ "name": "GroenLinks" },
-{ "name": "Partij voor de Dieren" },
-{ "name": "50Plus" },
-{ "name": "VNL" },
-{ "name": "Nieuwe Wegen" },
-{ "name": "Forum voor Democratie" },
-{ "name": "De Burger Beweging" },
-{ "name": "Vrijzinnige Partij" },
-{ "name": "Piratenpartij" },
-{ "name": "Libertarische Partij" },
-{ "name": "Lokaal in de Kamer" },
-{ "name": "Niet Stemmers" },
-{ "name": "VVD" },
-{ "name": "PvdA" },
-{ "name": "CDA" },
-{ "name": "ChristenUnie" },
-{ "name": "SGP" },
-{ "name": "OndernemersPartij" },
-{ "name": "DENK" },
-{ "name": "Artikel 1" }];
 
 // init function and the render that creates the page content
 function init_buttons() {
@@ -37,15 +12,15 @@ function init_buttons() {
 
     // Creating an onclick to send a request te re render the page with a new count
     btnPro.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "Eens" });
+        answerArray.splice(count, 0, { "answer": "pro" });
         prepareRender();
     }
     btnNone.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "Geen Van Beiden" });
+        answerArray.splice(count, 0, { "answer": "none" });
         prepareRender();
     }
     btnContra.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "Oneens" });
+        answerArray.splice(count, 0, { "answer": "contra" });
         prepareRender();
     }
     btnSkip.onclick = function () {
@@ -121,32 +96,30 @@ function clear() {
     wrapperContainer.innerHTML = "";
 }
 
-function calculateResult(questionNumber, opinion) {
-    for (i = 0; i < subjects[questionNumber].parties.length; i++) {
-        if (subjects[questionNumber].parties[i].position == opinion) {
-            if (!positionArray[i].score) {
-                positionArray[i].score = +1;
-            } else {
-                positionArray[i].score = positionArray[i].score + 1;
+function calculateResult() {
+    for (i = 0; i < answerArray.length; i++) {
+        for (a = 0; a < parties.length - 1; a++) {
+            if (subjects[i].parties[a].position == answerArray[i].answer) {
+                if (!parties[a].score) {
+                    parties[a].score = +1;
+                } else {
+                    parties[a].score = parties[a].score + 1;
+                }
             }
         }
     }
-    console.log(positionArray);
 }
 
 function dataDump() {
-    var container = document.getElementById("endSecondary");
+    var container = document.getElementById("result_content");
 
-    for (i = 0; i < positionArray.length; i++) {
-        var container = document.getElementById("result_content");
+    for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
-
-        if (!positionArray[i].score) {
-            p.innerHTML = positionArray[i].name + " " + "0";
+        if (!parties[i].score) {
+            p.innerHTML = parties[i].name + " " + "0";
         } else {
-            p.innerHTML = positionArray[i].name + " " + positionArray[i].score;
+            p.innerHTML = parties[i].name + " " + parties[i].score;
         }
-
         container.appendChild(p);
     }
 }
@@ -166,5 +139,6 @@ function toggleEndScreen() {
     document.getElementById("toggleQuestions").style.display = "none";
     document.getElementById("toggleEndContainer").style.display = "block";
 
+    calculateResult();
     dataDump();
 }
