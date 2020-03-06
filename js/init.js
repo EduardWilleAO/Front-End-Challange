@@ -112,16 +112,22 @@ function calculateResult() {
 
 function dataDump() {
     var container = document.getElementById("result_content");
+    var zero_container = document.getElementById("result_zero_container");
+
+    parties.sort((a, b) => parseFloat(a.score) - parseFloat(b.score));
 
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
         if (!parties[i].score) {
-            p.innerHTML = parties[i].name + " " + "0";
+            p.innerHTML = parties[i].name + " " + "0%";
+            zero_container.appendChild(p);
         } else {
-            p.innerHTML = parties[i].name + " " + parties[i].score;
+            p.innerHTML = parties[i].name + " " + Math.floor(100 / 30 * parties[i].score) + "%";
+            container.prepend(p);
         }
-        container.appendChild(p);
     }
+
+    container.appendChild(zero_container);
 }
 
 // Functions for toggeling the display of the 3 scenes
