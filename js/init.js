@@ -97,13 +97,20 @@ function clear() {
 }
 
 function calculateResult() {
-    for (i = 0; i < answerArray.length; i++) {
-        for (a = 0; a < parties.length - 1; a++) {
-            if (subjects[i].parties[a].position == answerArray[i].answer) {
-                if (!parties[a].score) {
-                    parties[a].score = +1;
-                } else {
-                    parties[a].score = parties[a].score + 1;
+    for (let i = 0; i < answerArray.length; i++) {
+        for (let p = 0; p < parties.length - 1; p++) {
+            if (subjects[i].parties[p].position == answerArray[i].answer) {
+                for (let part = 0; part < parties.length; part++) {
+                    console.log(subjects[i].parties[p].name + parties[part].name);
+                    if (subjects[i].parties[p].name == parties[part].name) {
+                        //if (answerArray[i]["checked"] == true) {
+                            //if (!parties[part].score) parties[part].score = 2;
+                            //else parties[part].score = parties[part].score + 2;
+                        //} else {
+                            if (!parties[part].score) parties[part].score = 1;
+                            else parties[part].score = parties[part].score + 1;
+                        //}
+                    }
                 }
             }
         }
@@ -114,7 +121,7 @@ function dataDump() {
     var container = document.getElementById("result_content");
     var zero_container = document.getElementById("result_zero_container");
 
-    parties.sort((a, b) => parseFloat(a.score) - parseFloat(b.score));
+    parties.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
@@ -122,8 +129,8 @@ function dataDump() {
             p.innerHTML = parties[i].name + " " + "0%";
             zero_container.appendChild(p);
         } else {
-            p.innerHTML = parties[i].name + " " + Math.floor(100 / 30 * parties[i].score) + "%";
-            container.prepend(p);
+            p.innerHTML = parties[i].name + " " + Math.floor(100 / subjects.length * parties[i].score) + "%";
+            container.appendChild(p);
         }
     }
 
