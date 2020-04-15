@@ -5,26 +5,52 @@ var answerArray = [];
 
 // init function and the render that creates the page content
 function init_buttons() {
-    var btnPro = document.getElementById("btn-pro");
-    var btnNone = document.getElementById("btn-none");
-    var btnContra = document.getElementById("btn-contra");
-    var btnSkip = document.getElementById("btn-skip");
+    var btnPro = document.getElementById("btn_pro");
+    var btnNone = document.getElementById("btn_none");
+    var btnContra = document.getElementById("btn_contra");
+    var btnSkip = document.getElementById("btn_skip");
+    var btnCheck = document.getElementById("btn_weight");
 
     // Creating an onclick to send a request te re render the page with a new count
     btnPro.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "pro" });
+        if (btnCheck.checked == true) {
+            answerArray.splice(count, 0, { "answer": "pro", "checked": "yes" });
+            btnCheck.checked = true;
+        } else {
+            answerArray.splice(count, 0, { "answer": "pro", "checked": "no" });
+            btnCheck.checked = false;
+        }
         prepareRender();
     }
     btnNone.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "none" });
+        if (btnCheck.checked == true) {
+            answerArray.splice(count, 0, { "answer": "none", "checked": "yes" });
+            btnCheck.checked = true;
+        } else {
+            answerArray.splice(count, 0, { "answer": "none", "checked": "no" });
+            btnCheck.checked = false;
+        }
         prepareRender();
     }
     btnContra.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "contra" });
+        if (btnCheck.checked == true) {
+            answerArray.splice(count, 0, { "answer": "contra", "checked": "yes" });
+            btnCheck.checked = true;
+        } else {
+            answerArray.splice(count, 0, { "answer": "contra", "checked": "no" });
+            btnCheck.checked = false;
+        }
         prepareRender();
     }
     btnSkip.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "" });
+        // not sure if any party gets points from this answer so it's here just in case
+        if (btnCheck.checked == true) {
+            answerArray.splice(count, 0, { "answer": "", "checked": "yes" });
+            btnCheck.checked = true;
+        } else {
+            answerArray.splice(count, 0, { "answer": "", "checked": "no" });
+            btnCheck.checked = false;
+        }
         prepareRender();
     }
 }
@@ -71,7 +97,7 @@ function render(count) {
     wrapperContainer.appendChild(description);
 }
 
-// Functions for editing page content
+ // Functions for editing page content
 function prevPage() {
     answerArray.splice((count-1), 1);
 
@@ -100,6 +126,20 @@ function calculateResult() {
     for (a = 0; a <= parties.length-1; a++) {
         parties[a].score = 0;
     }
+
+    /** 
+     * function to check total amount of possible points assigned to the parties, 
+     * then changes the amount used in percentages to that.
+     * */
+    total_checks = 0;
+    for (b = 0; b <= answerArray.length - 1; b++) {
+        console.log(answerArray[b].checked);
+        if (answerArray[b].checked == "yes") {
+            total_checks = total_checks + 2;
+        } else {
+            total_checks = total_checks + 1;
+        }
+    }
     
     for (let i = 0; i < subjects.length; i++) {
         // loops through the parties in subjects
@@ -111,7 +151,11 @@ function calculateResult() {
             var party = parties.find(a => a.name == subjects[i].parties[p].name);
 
             if (subjects[i].parties[p].position == answerArray[i].answer) {
-                party.score = party.score + 1;
+                if (answerArray[i].checked == "yes") {
+                    party.score = party.score + 2;
+                } else {
+                    party.score = party.score + 1;
+                }
             }
         }
     }
@@ -124,7 +168,7 @@ function dataDump() {
 
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
-        p.innerHTML = parties[i].name + " " + Math.floor(100 / subjects.length * parties[i].score) + "%";
+        p.innerHTML = parties[i].name + " " + Math.floor(100 / total_checks * parties[i].score) + "%";
         container.appendChild(p);
         
     }
