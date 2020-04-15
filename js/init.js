@@ -3,7 +3,7 @@ var count = 0;
 
 var answerArray = [];
 
-// init function and the render that creates the page content
+/** init function and the render that creates the page content */
 function init_buttons() {
     var btnPro = document.getElementById("btn_pro");
     var btnNone = document.getElementById("btn_none");
@@ -11,7 +11,7 @@ function init_buttons() {
     var btnSkip = document.getElementById("btn_skip");
     var btnCheck = document.getElementById("btn_weight");
 
-    // Creating an onclick to send a request te re render the page with a new count
+    /** Creating an onclick to send a request te re render the page with a new count */
     btnPro.onclick = function () {
         if (btnCheck.checked == true) {
             answerArray.splice(count, 0, { "answer": "pro", "checked": "yes" });
@@ -71,10 +71,10 @@ function prepareRender() {
 }
 
 function render(count) {
-    // Clears page for the next render otherwise items would duplicate
+    /** Clears page for the next render otherwise items would duplicate */
     clear();
 
-    // If statement to check if the count is undefined
+    /** If statement to check if the count is undefined */
     if (!count == "" || count == "0") {
         questionCounter = count;
     } else {
@@ -97,12 +97,12 @@ function render(count) {
     wrapperContainer.appendChild(description);
 }
 
- // Functions for editing page content
+/** Functions for editing page content */
 function prevPage() {
     answerArray.splice((count-1), 1);
 
     if (count == 0) {
-        //var confirm = confirm("Are you sure you want to go back to start?");
+        // var confirm = confirm("Are you sure you want to go back to start?"); */
         if (confirm('Are you sure you want to go back to start?')) {
             toggleStart();
         }
@@ -130,7 +130,7 @@ function calculateResult() {
     /** 
      * function to check total amount of possible points assigned to the parties, 
      * then changes the amount used in percentages to that.
-     * */
+     */
     total_checks = 0;
     for (b = 0; b <= answerArray.length - 1; b++) {
         console.log(answerArray[b].checked);
@@ -174,7 +174,7 @@ function dataDump() {
     }
 }
 
-// Functions for toggeling the display of the 3 scenes
+/** Functions for toggeling the display of the 3 scenes */
 function toggleQuestions() {
     document.getElementById("toggleQuestions").style.display = "block";
     document.getElementById("toggleQuestionsContainer").style.display = "none";
