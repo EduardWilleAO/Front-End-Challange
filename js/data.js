@@ -3717,11 +3717,11 @@ var parties = [{
     "secular": true,
     "size": 0
   },
-  {
-    "name": "Libertarische Partij",
-    "secular": true,
-    "size": 0
-  },
+  //{ commented because it's in the data.js two times
+  //  "name": "Libertarische Partij",
+  //  "secular": true,
+  //  "size": 0
+  //},
   {
     "name": "Niet Stemmers",
     "secular": true,

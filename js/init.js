@@ -30,7 +30,7 @@ function init_buttons() {
 }
 
 function prepareRender() {
-    if (count == 29) {
+    if (count == subjects.length-1) {
         if (confirm("Are you sure you want to submit your answers?")) {
             toggleEndScreen();
         }
@@ -97,21 +97,21 @@ function clear() {
 }
 
 function calculateResult() {
-    for (let i = 0; i < answerArray.length; i++) {
-        for (let p = 0; p < parties.length - 1; p++) {
+    for (a = 0; a <= parties.length-1; a++) {
+        parties[a].score = 0;
+    }
+    
+    for (let i = 0; i < subjects.length; i++) {
+        // loops through the parties in subjects
+        // then takes the name and looks for it in the parties array
+        for (let p = 0; p < subjects[i].parties.length - 1; p++) {
+            // check name, 
+            // look for name in parties array, 
+            // add points there
+            var party = parties.find(a => a.name == subjects[i].parties[p].name);
+
             if (subjects[i].parties[p].position == answerArray[i].answer) {
-                for (let part = 0; part < parties.length; part++) {
-                    console.log(subjects[i].parties[p].name + parties[part].name);
-                    if (subjects[i].parties[p].name == parties[part].name) {
-                        //if (answerArray[i]["checked"] == true) {
-                            //if (!parties[part].score) parties[part].score = 2;
-                            //else parties[part].score = parties[part].score + 2;
-                        //} else {
-                            if (!parties[part].score) parties[part].score = 1;
-                            else parties[part].score = parties[part].score + 1;
-                        //}
-                    }
-                }
+                party.score = party.score + 1;
             }
         }
     }
@@ -119,22 +119,15 @@ function calculateResult() {
 
 function dataDump() {
     var container = document.getElementById("result_content");
-    var zero_container = document.getElementById("result_zero_container");
 
     parties.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
-        if (!parties[i].score) {
-            p.innerHTML = parties[i].name + " " + "0%";
-            zero_container.appendChild(p);
-        } else {
-            p.innerHTML = parties[i].name + " " + Math.floor(100 / subjects.length * parties[i].score) + "%";
-            container.appendChild(p);
-        }
+        p.innerHTML = parties[i].name + " " + Math.floor(100 / subjects.length * parties[i].score) + "%";
+        container.appendChild(p);
+        
     }
-
-    container.appendChild(zero_container);
 }
 
 // Functions for toggeling the display of the 3 scenes
