@@ -57,8 +57,15 @@ function init_buttons() {
 
 function prepareRender() {
     if (count == subjects.length-1) {
-        if (confirm("Are you sure you want to submit your answers?")) {
-            toggleEndScreen();
+        var endQuestion = prompt("Submitting answers: *grote partijen*, *kleine partijen*, *alle partijen* or hit enter to cancel");
+        if (endQuestion == "grote partijen") {
+            toggleEndScreen("big");
+        } else if (endQuestion == "kleine partijen") {
+            toggleEndScreen("small");
+        } else if (endQuestion == "alle aartijen") {
+            toggleEndScreen("all");
+        } else {
+            alert("Going back to previous page");
         }
         return;
     }
@@ -161,16 +168,24 @@ function calculateResult() {
     }
 }
 
-function dataDump() {
+function retrieveData(p, i) {
+    p.innerHTML = parties[i].name + " " + Math.floor(100 / total_checks * parties[i].score) + "%";
+}
+
+function dataDump(answer) {
     var container = document.getElementById("result_content");
 
     parties.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
-        p.innerHTML = parties[i].name + " " + Math.floor(100 / total_checks * parties[i].score) + "%";
+        console.log(answer, parties[i].size);
+
+        if (answer == "big" && parties[i].size >= 1) retrieveData(p, i); 
+        else if (answer == "small" && parties[i].size <= 1) retrieveData(p, i); 
+        else if (answer == "full") retrieveData(p, i); 
+
         container.appendChild(p);
-        
     }
 }
 
@@ -185,10 +200,10 @@ function toggleStart() {
     document.getElementById("toggleQuestionsContainer").style.display = "block";
 }
 
-function toggleEndScreen() {
+function toggleEndScreen(answer) {
     document.getElementById("toggleQuestions").style.display = "none";
     document.getElementById("toggleEndContainer").style.display = "block";
 
     calculateResult();
-    dataDump();
+    dataDump(answer);
 }
