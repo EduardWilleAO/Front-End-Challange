@@ -62,7 +62,7 @@ function prepareRender() {
             toggleEndScreen("big");
         } else if (endQuestion == "kleine partijen") {
             toggleEndScreen("small");
-        } else if (endQuestion == "alle aartijen") {
+        } else if (endQuestion == "alle partijen") {
             toggleEndScreen("all");
         } else {
             alert("Going back to previous page");
@@ -183,7 +183,7 @@ function dataDump(answer) {
 
         if (answer == "big" && parties[i].size >= 1) retrieveData(p, i); 
         else if (answer == "small" && parties[i].size <= 1) retrieveData(p, i); 
-        else if (answer == "full") retrieveData(p, i); 
+        else if (answer == "all") retrieveData(p, i); 
 
         container.appendChild(p);
     }
