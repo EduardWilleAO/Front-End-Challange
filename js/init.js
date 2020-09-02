@@ -57,58 +57,12 @@ function init_buttons() {
 
 function prepareRender() {
     if (count == subjects.length - 1) {
-        //change title to: Welke partijen wilt u meenemen in het resultaat?
-        //change desc to: U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal één zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.
         clear();
         deactivateButtons();
-
-        var wrapperContainer = document.getElementById("statement_wrapper");
-
-        var title = document.createElement("h1");
-        var description = document.createElement("p");
-
-        var btn1 = document.createElement("button");
-        var btn2 = document.createElement("button");
-        var btn3 = document.createElement("button");
-
-        btn1.setAttribute("class", "btn-answer");
-        btn2.setAttribute("class", "btn-answer");
-        btn3.setAttribute("class", "btn-answer");
-
-        btn1.innerHTML = "Selecteer Zittende Partijen";
-        btn2.innerHTML = "Selecteer Seculiere Partijen";
-        btn3.innerHTML = "Selecteer Alle Partijen";
-
-        btn1.onclick = function () { toggleEndScreen("big"); }
-        btn2.onclick = function () { toggleEndScreen("small"); }
-        btn3.onclick = function () { toggleEndScreen("all"); }
-
-        title.setAttribute("id", "statement_title");
-        title.innerHTML = "Welke partijen wilt u meenemen in het resultaat?";
-
-        description.setAttribute("id", "statement_description");
-        description.innerHTML = "U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal een zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.";
-
-        wrapperContainer.appendChild(title);
-        wrapperContainer.appendChild(description);
-        wrapperContainer.appendChild(btn1);
-        wrapperContainer.appendChild(btn2);
-        wrapperContainer.appendChild(btn3);
+        renderPartyScreen();
 
         count++;
         return;
-
-        //var endQuestion = prompt("Submitting answers: *grote partijen*, *kleine partijen*, *alle partijen* or hit enter to cancel");
-        //if (endQuestion == "grote partijen") {
-        //    toggleEndScreen("big");
-        //} else if (endQuestion == "kleine partijen") {
-        //    toggleEndScreen("small");
-        //} else if (endQuestion == "alle partijen") {
-        //    toggleEndScreen("all");
-        //} else {
-        //    alert("Going back to previous page");
-        //}
-        //return;
     }
     if (count == undefined) {
         count = 1;
@@ -145,6 +99,41 @@ function render(count) {
     wrapperContainer.appendChild(description);
 }
 
+function renderPartyScreen() {
+    var wrapperContainer = document.getElementById("statement_wrapper");
+
+    var title = document.createElement("h1");
+    var description = document.createElement("p");
+
+    var btn1 = document.createElement("button");
+    var btn2 = document.createElement("button");
+    var btn3 = document.createElement("button");
+
+    btn1.setAttribute("class", "btn-answer");
+    btn2.setAttribute("class", "btn-answer");
+    btn3.setAttribute("class", "btn-answer");
+
+    btn1.innerHTML = "Selecteer Zittende Partijen";
+    btn2.innerHTML = "Selecteer Seculiere Partijen";
+    btn3.innerHTML = "Selecteer Alle Partijen";
+
+    btn1.onclick = function () { toggleEndScreen("big"); }
+    btn2.onclick = function () { toggleEndScreen("small"); }
+    btn3.onclick = function () { toggleEndScreen("all"); }
+
+    title.setAttribute("id", "statement_title");
+    title.innerHTML = "Welke partijen wilt u meenemen in het resultaat?";
+
+    description.setAttribute("id", "statement_description");
+    description.innerHTML = "U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal een zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.";
+
+    wrapperContainer.appendChild(title);
+    wrapperContainer.appendChild(description);
+    wrapperContainer.appendChild(btn1);
+    wrapperContainer.appendChild(btn2);
+    wrapperContainer.appendChild(btn3);
+}
+
 /** Functions for editing page content */
 function prevPage() {
     answerArray.splice((count-1), 1);
@@ -172,8 +161,7 @@ function clear() {
 
 function deactivateButtons() {
     var actionsContainer = document.getElementById("statement_actions");
-
-    actionsContainer.display = "none";
+    actionsContainer.style.display = "none";
 };
 
 function activateButtons() {
@@ -221,10 +209,6 @@ function calculateResult() {
     }
 }
 
-function retrieveData(p, i) {
-    p.innerHTML = parties[i].name + " " + Math.floor(100 / total_checks * parties[i].score) + "%";
-}
-
 function dataDump(answer) {
     var container = document.getElementById("result_content");
 
@@ -232,13 +216,37 @@ function dataDump(answer) {
 
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
-        console.log(answer, parties[i].size);
+        var p2 = document.createElement("p");
+        p.style.display = "inline-block";
+        p2.style.display = "inline-block";
+        p.style.margin = "0";
+        p2.style.margin = "0";
+        p.style.width = "50%";
+        p2.style.width = "50%";
 
-        if (answer == "big" && parties[i].size >= 1) retrieveData(p, i); 
-        else if (answer == "small" && parties[i].size <= 1) retrieveData(p, i); 
-        else if (answer == "all") retrieveData(p, i); 
+        //console.log(answer, parties[i].size);
 
-        container.appendChild(p);
+        if (answer == "big" && parties[i].size >= 1) {
+            console.log(parties[i].score);
+            p.innerHTML = parties[i].name
+            p2.innerHTML = Math.floor(100 / total_checks * parties[i].score) + "%";
+            append();
+        }
+        else if (answer == "small" && parties[i].size <= 1) {
+            p.innerHTML = parties[i].name
+            p2.innerHTML = Math.floor(100 / total_checks * parties[i].score) + "%";
+            append();
+        }
+        else if (answer == "all") {
+            p.innerHTML = parties[i].name
+            p2.innerHTML = Math.floor(100 / total_checks * parties[i].score) + "%";
+            append();
+        }
+
+        function append() {
+            container.appendChild(p);
+            container.appendChild(p2);
+        }
     }
 }
 
@@ -254,8 +262,8 @@ function toggleStart() {
 }
 
 function toggleEndScreen(answer) {
-    document.getElementById("toggleQuestions").style.display = "none";
     document.getElementById("toggleEndContainer").style.display = "block";
+    document.getElementById("statement_wrapper").style.display = "none";
 
     calculateResult();
     dataDump(answer);

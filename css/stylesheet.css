@@ -43,6 +43,10 @@ body {
     font-size: 33px;
     min-height: 155px;
 }
+p {
+    font-family: 'Arial';
+    font-size: 25px;
+}
 
 .btn-answer {
     display: inline-block;
