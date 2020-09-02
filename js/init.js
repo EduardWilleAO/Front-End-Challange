@@ -60,7 +60,7 @@ function prepareRender() {
         clear();
         deactivateButtons();
         renderPartyScreen();
-
+        console.log(count);
         count++;
         return;
     }
@@ -143,6 +143,22 @@ function prevPage() {
         if (confirm('Are you sure you want to go back to start?')) {
             toggleStart();
         }
+        return;
+    } else if (count == 30) {
+        document.getElementById("statement_wrapper").style.display = "block";
+        document.getElementById("statement_actions").style.display = "block";
+        render();
+    } else if (count == 31) {
+        document.getElementById("toggleEndContainer").style.display = "none";
+        document.getElementById("statement_wrapper").style.display = "block";
+        document.getElementById("statement_actions").style.display = "block";
+        document.getElementById("result_content").innerHTML = "";
+
+        clear();
+        deactivateButtons();
+        renderPartyScreen();
+
+        count--;
         return;
     }
     if (count == undefined) {
@@ -267,4 +283,6 @@ function toggleEndScreen(answer) {
 
     calculateResult();
     dataDump(answer);
+
+    count++;
 }
