@@ -56,18 +56,59 @@ function init_buttons() {
 }
 
 function prepareRender() {
-    if (count == subjects.length-1) {
-        var endQuestion = prompt("Submitting answers: *grote partijen*, *kleine partijen*, *alle partijen* or hit enter to cancel");
-        if (endQuestion == "grote partijen") {
-            toggleEndScreen("big");
-        } else if (endQuestion == "kleine partijen") {
-            toggleEndScreen("small");
-        } else if (endQuestion == "alle partijen") {
-            toggleEndScreen("all");
-        } else {
-            alert("Going back to previous page");
-        }
+    if (count == subjects.length - 1) {
+        //change title to: Welke partijen wilt u meenemen in het resultaat?
+        //change desc to: U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal één zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.
+        clear();
+        deactivateButtons();
+
+        var wrapperContainer = document.getElementById("statement_wrapper");
+
+        var title = document.createElement("h1");
+        var description = document.createElement("p");
+
+        var btn1 = document.createElement("button");
+        var btn2 = document.createElement("button");
+        var btn3 = document.createElement("button");
+
+        btn1.setAttribute("class", "btn-answer");
+        btn2.setAttribute("class", "btn-answer");
+        btn3.setAttribute("class", "btn-answer");
+
+        btn1.innerHTML = "Selecteer Zittende Partijen";
+        btn2.innerHTML = "Selecteer Seculiere Partijen";
+        btn3.innerHTML = "Selecteer Alle Partijen";
+
+        btn1.onclick = function () { toggleEndScreen("big"); }
+        btn2.onclick = function () { toggleEndScreen("small"); }
+        btn3.onclick = function () { toggleEndScreen("all"); }
+
+        title.setAttribute("id", "statement_title");
+        title.innerHTML = "Welke partijen wilt u meenemen in het resultaat?";
+
+        description.setAttribute("id", "statement_description");
+        description.innerHTML = "U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal een zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.";
+
+        wrapperContainer.appendChild(title);
+        wrapperContainer.appendChild(description);
+        wrapperContainer.appendChild(btn1);
+        wrapperContainer.appendChild(btn2);
+        wrapperContainer.appendChild(btn3);
+
+        count++;
         return;
+
+        //var endQuestion = prompt("Submitting answers: *grote partijen*, *kleine partijen*, *alle partijen* or hit enter to cancel");
+        //if (endQuestion == "grote partijen") {
+        //    toggleEndScreen("big");
+        //} else if (endQuestion == "kleine partijen") {
+        //    toggleEndScreen("small");
+        //} else if (endQuestion == "alle partijen") {
+        //    toggleEndScreen("all");
+        //} else {
+        //    alert("Going back to previous page");
+        //}
+        //return;
     }
     if (count == undefined) {
         count = 1;
@@ -127,6 +168,18 @@ function clear() {
     var wrapperContainer = document.getElementById("statement_wrapper");
 
     wrapperContainer.innerHTML = "";
+}
+
+function deactivateButtons() {
+    var actionsContainer = document.getElementById("statement_actions");
+
+    actionsContainer.display = "none";
+};
+
+function activateButtons() {
+    var actionsContainer = document.getElementById("statement_actions");
+
+    actionsContainer.display = "block";
 }
 
 function calculateResult() {
