@@ -56,19 +56,50 @@ function init_buttons() {
 }
 
 function prepareRender() {
+
+    console.log("prep" + count);
     if (count == subjects.length - 1) {
+        count++;
+
+        clear();
+        deactivateButtons();
+
+        //renderQuestionWeighing();
+        var wrapperContainer = document.getElementById("statement_wrapper");
+
+        var title = document.createElement("h1");
+        var description = document.createElement("p");
+        var button = document.createElement("button");
+
+        title.setAttribute("id", "statement_title");
+        title.innerHTML = "Zijn er onderwerpen die u extra belangerijk vindt?";
+
+        description.setAttribute("id", "statement_description");
+        description.innerHTML = "Aangevinkte stellingen tellen extra mee bij het berekenen van het resultaat.";
+
+        button.onclick = function () {
+            prepareRender();
+            return;
+        }
+        button.setAttribute("class", "btn-answer");
+        button.innerHTML = "Ga verder";
+
+        wrapperContainer.appendChild(title);
+        wrapperContainer.appendChild(description);
+        wrapperContainer.appendChild(button);
+
+        return;
+    } else if (count == subjects.length) {
         clear();
         deactivateButtons();
         renderPartyScreen();
-        console.log(count);
         count++;
         return;
-    }
-    if (count == undefined) {
+    } else if (count == undefined) {
         count = 1;
-    } else {
-        count++;
     }
+
+    count++;
     render(count);
 }
 
@@ -145,10 +176,15 @@ function prevPage() {
         }
         return;
     } else if (count == 30) {
-        document.getElementById("statement_wrapper").style.display = "block";
         document.getElementById("statement_actions").style.display = "block";
         render();
     } else if (count == 31) {
+        //for some reason I need 2 count--; will be fixed later.
+        count--;
+        count--;
+        prepareRender();
+        return;
+    } else if (count == 32) {
         document.getElementById("toggleEndContainer").style.display = "none";
         document.getElementById("statement_wrapper").style.display = "block";
         document.getElementById("statement_actions").style.display = "block";
@@ -197,7 +233,7 @@ function calculateResult() {
      */
     total_checks = 0;
     for (b = 0; b <= answerArray.length - 1; b++) {
-        console.log(answerArray[b].checked);
+        //console.log(answerArray[b].checked);
         if (answerArray[b].checked == "yes") {
             total_checks = total_checks + 2;
         } else {
