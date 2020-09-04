@@ -9,51 +9,25 @@ function init_buttons() {
     var btnNone = document.getElementById("btn_none");
     var btnContra = document.getElementById("btn_contra");
     var btnSkip = document.getElementById("btn_skip");
-    var btnCheck = document.getElementById("btn_weight");
 
     /** Creating an onclick to send a request te re render the page with a new count */
     btnPro.onclick = function () {
-        if (btnCheck.checked == true) {
-            answerArray.splice(count, 0, { "answer": "pro", "checked": "yes" });
-            btnCheck.checked = true;
-        } else {
-            answerArray.splice(count, 0, { "answer": "pro", "checked": "no" });
-            btnCheck.checked = false;
-        }
+        answerArray.splice(count, 0, { "answer": "pro" });
         prepareRender();
     }
     btnNone.onclick = function () {
-        if (btnCheck.checked == true) {
-            answerArray.splice(count, 0, { "answer": "none", "checked": "yes" });
-            btnCheck.checked = true;
-        } else {
-            answerArray.splice(count, 0, { "answer": "none", "checked": "no" });
-            btnCheck.checked = false;
-        }
+        answerArray.splice(count, 0, { "answer": "none" });
         prepareRender();
     }
     btnContra.onclick = function () {
-        if (btnCheck.checked == true) {
-            answerArray.splice(count, 0, { "answer": "contra", "checked": "yes" });
-            btnCheck.checked = true;
-        } else {
-            answerArray.splice(count, 0, { "answer": "contra", "checked": "no" });
-            btnCheck.checked = false;
-        }
+        answerArray.splice(count, 0, { "answer": "contra" });
         prepareRender();
     }
     btnSkip.onclick = function () {
-        // not sure if any party gets points from this answer so it's here just in case
-        if (btnCheck.checked == true) {
-            answerArray.splice(count, 0, { "answer": "", "checked": "yes" });
-            btnCheck.checked = true;
-        } else {
-            answerArray.splice(count, 0, { "answer": "", "checked": "no" });
-            btnCheck.checked = false;
-        }
+        answerArray.splice(count, 0, { "answer": ""});
         prepareRender();
     }
-}
+};
 
 function prepareRender() {
 
@@ -78,15 +52,19 @@ function prepareRender() {
         description.innerHTML = "Aangevinkte stellingen tellen extra mee bij het berekenen van het resultaat.";
 
         button.onclick = function () {
+            calculateWeight();
             prepareRender();
             return;
         }
+        button.setAttribute("id", "float_right")
         button.setAttribute("class", "btn-answer");
         button.innerHTML = "Ga verder";
 
         wrapperContainer.appendChild(title);
         wrapperContainer.appendChild(description);
         wrapperContainer.appendChild(button);
+
+        renderAllQuestions();
 
         return;
     } else if (count == subjects.length) {
@@ -101,7 +79,7 @@ function prepareRender() {
 
     count++;
     render(count);
-}
+};
 
 function render(count) {
     /** Clears page for the next render otherwise items would duplicate */
@@ -128,7 +106,7 @@ function render(count) {
 
     wrapperContainer.appendChild(title);
     wrapperContainer.appendChild(description);
-}
+};
 
 function renderPartyScreen() {
     var wrapperContainer = document.getElementById("statement_wrapper");
@@ -163,7 +141,29 @@ function renderPartyScreen() {
     wrapperContainer.appendChild(btn1);
     wrapperContainer.appendChild(btn2);
     wrapperContainer.appendChild(btn3);
-}
+};
+
+function renderAllQuestions() {
+    for (i = 0; i <= subjects.length-1; i++) {
+        var container = document.getElementById("statement_wrapper");
+
+        var smallContainer = document.createElement("div");
+        smallContainer.style.display = "inline-block";
+        smallContainer.style.margin = "2px 5px";
+
+        var checkbox = document.createElement("input");
+        var title = document.createElement("li");
+
+        checkbox.setAttribute("id", "checkbox"+i);
+        checkbox.setAttribute("type", "checkbox");
+        title.innerHTML = subjects[i].title;
+
+        smallContainer.appendChild(checkbox);
+        smallContainer.appendChild(title);
+
+        container.appendChild(smallContainer);
+    };
+};
 
 /** Functions for editing page content */
 function prevPage() {
@@ -203,13 +203,13 @@ function prevPage() {
         count--;
     }
     render(count);
-}
+};
 
 function clear() {
     var wrapperContainer = document.getElementById("statement_wrapper");
 
     wrapperContainer.innerHTML = "";
-}
+};
 
 function deactivateButtons() {
     var actionsContainer = document.getElementById("statement_actions");
@@ -220,7 +220,18 @@ function activateButtons() {
     var actionsContainer = document.getElementById("statement_actions");
 
     actionsContainer.display = "block";
-}
+};
+
+function calculateWeight() {
+    for (i = 0; i <= subjects.length - 1; i++) {
+        var checkbox = document.getElementById("checkbox"+i);
+        if (checkbox.checked == true) {
+            answerArray[i].checked = true;
+        } else {
+            answerArray[i].checked = false;
+        }
+    }
+};
 
 function calculateResult() {
     for (a = 0; a <= parties.length-1; a++) {
@@ -234,7 +245,7 @@ function calculateResult() {
     total_checks = 0;
     for (b = 0; b <= answerArray.length - 1; b++) {
         //console.log(answerArray[b].checked);
-        if (answerArray[b].checked == "yes") {
+        if (answerArray[b].checked == true) {
             total_checks = total_checks + 2;
         } else {
             total_checks = total_checks + 1;
@@ -251,7 +262,7 @@ function calculateResult() {
             var party = parties.find(a => a.name == subjects[i].parties[p].name);
 
             if (subjects[i].parties[p].position == answerArray[i].answer) {
-                if (answerArray[i].checked == "yes") {
+                if (answerArray[i].checked == true) {
                     party.score = party.score + 2;
                 } else {
                     party.score = party.score + 1;
@@ -259,7 +270,7 @@ function calculateResult() {
             }
         }
     }
-}
+};
 
 function dataDump(answer) {
     var container = document.getElementById("result_content");
@@ -300,18 +311,18 @@ function dataDump(answer) {
             container.appendChild(p2);
         }
     }
-}
+};
 
 /** Functions for toggeling the display of the 3 scenes */
 function toggleQuestions() {
     document.getElementById("toggleQuestions").style.display = "block";
-    document.getElementById("toggleQuestionsContainer").style.display = "none";
-} 
+    document.getElementById("toggleStart").style.display = "none";
+};
 
 function toggleStart() {
     document.getElementById("toggleQuestions").style.display = "none";
-    document.getElementById("toggleQuestionsContainer").style.display = "block";
-}
+    document.getElementById("toggleStart").style.display = "block";
+};
 
 function toggleEndScreen(answer) {
     document.getElementById("toggleEndContainer").style.display = "block";
@@ -321,4 +332,4 @@ function toggleEndScreen(answer) {
     dataDump(answer);
 
     count++;
-}
+};
