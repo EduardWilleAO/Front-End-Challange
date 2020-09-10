@@ -9,7 +9,19 @@
 <body>
     <div id="content">
         <div id="toggleStart">
-            <button type="button" id="btnStart" class="btn-answer" onclick="toggleQuestions()">Start!</button>
+            <p style="font-size: 50px; margin: 0px;"><strong style="color: #01B4DC;">Stem</strong><strong>Wijzer</strong></p>
+            <p style="font-size: 20px; font-weight: bold; margin: 0px;">StemWijzer Tweede Kamer 2017</p>
+            <p style="font-size: 33px; font-weight: bold; color: #01B4DC;">Test uw politieke voorkeur aan de hand van 30 stellingen</p>
+
+            <div><i class="fas fa-universal-access" style="font-size: 50px; margin: 0px 28px 0px 0px"></i><p style="display: inline-block; margin: 0px; width: 21%; font-size: 16px;">Bekijk de toegankelijke versie voor mensen met een visuele beperking</p></div>
+            <div style="margin-top: 30px;"><i class="fas fa-lock" style="font-size: 50px; float: left; margin: 10px 30px 0px 0px;"></i><p style="display: inline-block; margin: 0px; width: 21%; font-size: 16px;">De StemWijzer maakt geen gebruik van cookies. Klik hier voor de volledige privacy statement</p></div>
+            
+            <button style="position: absolute; margin: -100px 0px 0px 700px;" type="button" id="btnStart" class="btn-answer" onclick="toggleQuestions()">Start!</button>
+        
+            <div style="background-color: #F9F9F9; width: 100%; border-top: 2px dotted #979797; margin: 25px 0px 0px -100px; padding: 40px 0px 100px 50px;">
+                <h3 style="margin-left: 50px;">Of blik terug met de <strong style="color: lightgray;">Stemmen</strong><strong>Tracker</strong></h3>
+                <p style="margin-left: 50px; font-size: 16px;">Wat hebben de partijen in het verleden waargemaakt van hun verkiezingsbeloften? 'Track' uw stem met de Stemmentracker, een website die terugblikt op 30 Tweede Kamerstemmingen van de afgelopen regeerperiode. Met welke partij stemde u mee?</p>
+            </div>
         </div>
         <div id="toggleQuestions">
             <button id="btn-back" onclick="prevPage()"><i class="fas fa-arrow-left"></i></button>
@@ -18,7 +30,7 @@
                 <button id="btn_pro" class="btn-answer">Eens</button>
                 <button id="btn_none" class="btn-answer">Geen Van Beiden</button>
                 <button id="btn_contra" class="btn-answer">Oneens</button>
-                <button id="btn_skip" class="btn-answer">Sla deze vraag over <i class='fas fa-arrow-right'></i></button>
+                <button id="btn_skip" class="btn-answer btn-skip">Sla deze vraag over </button><i class='fas fa-arrow-right btn-skip'></i>
             </div>
 
             <div id="toggleEndContainer">
