@@ -149,10 +149,11 @@ function renderAllQuestions() {
 
         var smallContainer = document.createElement("div");
         smallContainer.style.display = "inline-block";
-        smallContainer.style.margin = "2px 5px";
+        smallContainer.style.margin = "2px 25px";
 
         var checkbox = document.createElement("input");
         var title = document.createElement("li");
+        var hr = document.createElement("hr");
 
         checkbox.setAttribute("id", "checkbox"+i);
         checkbox.setAttribute("type", "checkbox");
@@ -160,6 +161,7 @@ function renderAllQuestions() {
 
         smallContainer.appendChild(checkbox);
         smallContainer.appendChild(title);
+        smallContainer.appendChild(hr);
 
         container.appendChild(smallContainer);
     };
@@ -167,24 +169,27 @@ function renderAllQuestions() {
 
 /** Functions for editing page content */
 function prevPage() {
-    answerArray.splice((count-1), 1);
-
     if (count == 0) {
-        // var confirm = confirm("Are you sure you want to go back to start?"); */
-        if (confirm('Are you sure you want to go back to start?')) {
-            toggleStart();
-        }
+        answerArray.splice((count - 1), 1);
+
+        toggleStart();
         return;
     } else if (count == 30) {
+        answerArray.splice((count - 1), 1);
+
         document.getElementById("statement_actions").style.display = "block";
         render();
     } else if (count == 31) {
+        answerArray.splice((count - 1), 1);
+
         //for some reason I need 2 count--; will be fixed later.
         count--;
         count--;
         prepareRender();
         return;
     } else if (count == 32) {
+        answerArray.splice((count - 1), 1);
+
         document.getElementById("toggleEndContainer").style.display = "none";
         document.getElementById("statement_wrapper").style.display = "block";
         document.getElementById("statement_actions").style.display = "block";
@@ -198,8 +203,13 @@ function prevPage() {
         return;
     }
     if (count == undefined) {
+        answerArray.splice((count - 1), 1);
         count = 1;
     } else {
+        saveButtonInput();
+
+        answerArray.splice((count - 1), 1);
+
         count--;
     }
     render(count);
@@ -220,6 +230,24 @@ function activateButtons() {
     var actionsContainer = document.getElementById("statement_actions");
 
     actionsContainer.display = "block";
+};
+
+function saveButtonInput() {
+    resetButtonColor();
+
+    if (answerArray[answerArray.length-1].answer == "pro") {
+        document.getElementById("btn_pro").style.backgroundColor = "#01B4DC";
+    } else if (answerArray[answerArray.length-1].answer == "none") {
+        document.getElementById("btn_none").style.backgroundColor = "#01B4DC";
+    } else if (answerArray[answerArray.length-1].answer == "contra") {
+        document.getElementById("btn_contra").style.backgroundColor = "#01B4DC";
+    }
+};
+
+function resetButtonColor() {
+    document.getElementById("btn_pro").style.backgroundColor = "black";
+    document.getElementById("btn_none").style.backgroundColor = "black";
+    document.getElementById("btn_contra").style.backgroundColor = "black";
 };
 
 function calculateWeight() {
