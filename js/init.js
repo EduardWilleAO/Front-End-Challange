@@ -118,13 +118,13 @@ function renderPartyScreen() {
     var btn2 = document.createElement("button");
     var btn3 = document.createElement("button");
 
-    btn1.setAttribute("class", "btn-answer");
-    btn2.setAttribute("class", "btn-answer");
-    btn3.setAttribute("class", "btn-answer");
+    btn1.setAttribute("class", "btn-answer btn-parties");
+    btn2.setAttribute("class", "btn-answer btn-parties");
+    btn3.setAttribute("class", "btn-answer btn-parties");
 
-    btn1.innerHTML = "Selecteer Zittende Partijen";
-    btn2.innerHTML = "Selecteer Seculiere Partijen";
-    btn3.innerHTML = "Selecteer Alle Partijen";
+    btn1.innerHTML = "<i class='fas fa-republican'></i> <span class='PartySelectText'>Selecteer Zittende Partijen</span>";
+    btn2.innerHTML = "<i class='fas fa-democrat'></i> <span class='PartySelectText'>Selecteer Seculiere Partijen</span>";
+    btn3.innerHTML = "<i class='fas fa-check-double'></i> <span class='PartySelectText'>Selecteer Alle Partijen</span>";
 
     btn1.onclick = function () { toggleEndScreen("big"); }
     btn2.onclick = function () { toggleEndScreen("small"); }
@@ -305,32 +305,34 @@ function dataDump(answer) {
 
     parties.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 
+    var firstCheck = true;
+
     for (i = 0; i < parties.length; i++) {
         var p = document.createElement("p");
         var p2 = document.createElement("p");
-        p.style.display = "inline-block";
-        p2.style.display = "inline-block";
-        p.style.margin = "0";
-        p2.style.margin = "0";
-        p.style.width = "50%";
-        p2.style.width = "50%";
 
-        //console.log(answer, parties[i].size);
+        p.setAttribute("class", "resultString");
+        p2.setAttribute("class", "resultBar");
+       
+        if (firstCheck == true && (answer == "big" && parties[i].size >= 1 || answer == "small" && parties[i].size <= 1 || answer == "all")) {
+            var topParty = document.createElement("p");
 
-        if (answer == "big" && parties[i].size >= 1) {
-            console.log(parties[i].score);
-            p.innerHTML = parties[i].name
-            p2.innerHTML = Math.floor(100 / total_checks * parties[i].score) + "%";
-            append();
+            topParty.innerHTML = "Uw mening komt het best overeen met: <br><b>" + parties[i].name + "</b>";
+            topParty.style.textAlign = "center";
+            topParty.style.paddingBottom = "50px";
+
+            container.appendChild(topParty);
+            firstCheck = false;
         }
-        else if (answer == "small" && parties[i].size <= 1) {
+
+        if (answer == "big" && parties[i].size >= 1 || answer == "small" && parties[i].size <= 1 || answer == "all") {
+            var calc = Math.floor(100 / total_checks * parties[i].score);
+
             p.innerHTML = parties[i].name
-            p2.innerHTML = Math.floor(100 / total_checks * parties[i].score) + "%";
-            append();
-        }
-        else if (answer == "all") {
-            p.innerHTML = parties[i].name
-            p2.innerHTML = Math.floor(100 / total_checks * parties[i].score) + "%";
+            p2.innerHTML =  calc + "%";
+
+            p2.style.background = "-webkit-linear-gradient(left, #01B4DC " + calc + "%, white " + calc + "%)";
+
             append();
         }
 
