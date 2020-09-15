@@ -1,4 +1,3 @@
-var questionCounter = 0;
 var count = 0;
 
 var answerArray = [];
@@ -12,19 +11,19 @@ function init_buttons() {
 
     /** Creating an onclick to send a request te re render the page with a new count */
     btnPro.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "pro" });
+        answerArray.splice(count, 1, { "answer": "pro" });
         prepareRender();
     }
     btnNone.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "none" });
+        answerArray.splice(count, 1, { "answer": "none" });
         prepareRender();
     }
     btnContra.onclick = function () {
-        answerArray.splice(count, 0, { "answer": "contra" });
+        answerArray.splice(count, 1, { "answer": "contra" });
         prepareRender();
     }
     btnSkip.onclick = function () {
-        answerArray.splice(count, 0, { "answer": ""});
+        answerArray.splice(count, 1, { "answer": ""});
         prepareRender();
     }
 };
@@ -87,10 +86,9 @@ function render(count) {
 
     /** If statement to check if the count is undefined */
     if (!count == "" || count == "0") {
-        questionCounter = count;
     } else {
         console.log("The counter is either set to 0 or undefined");
-        questionCounter = 0;
+        count = 0;
     }
 
     var wrapperContainer = document.getElementById("statement_wrapper");
@@ -99,13 +97,23 @@ function render(count) {
     var description = document.createElement("p");
 
     title.setAttribute("id", "statement_title");
-    title.innerHTML = questionCounter + 1 + ". " + subjects[questionCounter].title;
+    title.innerHTML = count + 1 + ". " + subjects[count].title;
 
     description.setAttribute("id", "statement_description");
-    description.innerHTML = subjects[questionCounter].statement;
+    description.innerHTML = subjects[count].statement;
 
     wrapperContainer.appendChild(title);
     wrapperContainer.appendChild(description);
+
+    console.log(count);
+    if (answerArray[count]) {
+        console.log("activated");
+        if (answerArray[count].answer == "pro" || answerArray[count].answer == "none" || answerArray[count].answer == "contra") {
+            saveButtonInput();
+        }
+    } else {
+        resetButtonColor();
+    }
 };
 
 function renderPartyScreen() {
@@ -170,17 +178,14 @@ function renderAllQuestions() {
 /** Functions for editing page content */
 function prevPage() {
     if (count == 0) {
-        answerArray.splice((count - 1), 1);
 
         toggleStart();
         return;
     } else if (count == 30) {
-        answerArray.splice((count - 1), 1);
 
         document.getElementById("statement_actions").style.display = "block";
         render();
     } else if (count == 31) {
-        answerArray.splice((count - 1), 1);
 
         //for some reason I need 2 count--; will be fixed later.
         count--;
@@ -188,7 +193,6 @@ function prevPage() {
         prepareRender();
         return;
     } else if (count == 32) {
-        answerArray.splice((count - 1), 1);
 
         document.getElementById("toggleEndContainer").style.display = "none";
         document.getElementById("statement_wrapper").style.display = "block";
@@ -203,13 +207,8 @@ function prevPage() {
         return;
     }
     if (count == undefined) {
-        answerArray.splice((count - 1), 1);
         count = 1;
     } else {
-        saveButtonInput();
-
-        answerArray.splice((count - 1), 1);
-
         count--;
     }
     render(count);
@@ -235,11 +234,11 @@ function activateButtons() {
 function saveButtonInput() {
     resetButtonColor();
 
-    if (answerArray[answerArray.length-1].answer == "pro") {
+    if (answerArray[count].answer == "pro") {
         document.getElementById("btn_pro").style.backgroundColor = "#01B4DC";
-    } else if (answerArray[answerArray.length-1].answer == "none") {
+    } else if (answerArray[count].answer == "none") {
         document.getElementById("btn_none").style.backgroundColor = "#01B4DC";
-    } else if (answerArray[answerArray.length-1].answer == "contra") {
+    } else if (answerArray[count].answer == "contra") {
         document.getElementById("btn_contra").style.backgroundColor = "#01B4DC";
     }
 };
@@ -314,7 +313,7 @@ function dataDump(answer) {
         p.setAttribute("class", "resultString");
         p2.setAttribute("class", "resultBar");
        
-        if (firstCheck == true && (answer == "big" && parties[i].size >= 1 || answer == "small" && parties[i].size <= 1 || answer == "all")) {
+        if (firstCheck == true && (answer == "big" && parties[i].size >= 1 || answer == "small" && parties[i].size >= 1 || answer == "all")) {
             var topParty = document.createElement("p");
 
             topParty.innerHTML = "Uw mening komt het best overeen met: <br><b>" + parties[i].name + "</b>";
